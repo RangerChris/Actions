@@ -25,32 +25,57 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Building project...
-
-      # Runs a set of commands using the runners shell
+      # Emulate build step
       - name: Build and test
         run: |
           echo Building application,
           echo Running tests,
           echo Preparing for deployment.
 
-  # Deployment job with matrix for multiple environments
-  deploy:
+  # Deploy to Development environment
+  deploy-development:
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        environment: [Development, Staging, Production]
-
-    environment: ${{ matrix.environment }}
+    environment: Development
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy to ${{ matrix.environment }}
+      - name: Deploy to Development
         run: |
-          echo "Deploying to ${{ matrix.environment }} environment..."
-          echo "Running deployment scripts and configurations for ${{ matrix.environment }}..."
+          echo "Deploying to Development environment..."
+          echo "Running deployment scripts and configurations for Development..."
+          echo "MY_ACTION_VALUE: $MY_ACTION_VALUE"
+          # Add your deployment commands here
+
+  # Deploy to Staging environment
+  deploy-staging:
+    needs: deploy-development
+    runs-on: ubuntu-latest
+    environment: Staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to Staging environment..."
+          echo "Running deployment scripts and configurations for Staging..."
+          echo "MY_ACTION_VALUE: $MY_ACTION_VALUE"
+          # Add your deployment commands here
+
+  # Deploy to Production environment
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to Production environment..."
+          echo "Running deployment scripts and configurations for Production..."
+          echo "MY_ACTION_VALUE: $MY_ACTION_VALUE"
           # Add your deployment commands here
