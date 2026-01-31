@@ -51,7 +51,7 @@ jobs:
   # Deploy to Development environment
   deploy-development:
     needs: build
-    if: inputs.deploy_development == true
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_development == true
     runs-on: ubuntu-latest
     environment: Development
 
@@ -68,7 +68,7 @@ jobs:
   # Deploy to Staging environment
   deploy-staging:
     needs: build
-    if: inputs.deploy_staging == true
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_staging == true
     runs-on: ubuntu-latest
     environment: Staging
 
@@ -85,7 +85,7 @@ jobs:
   # Deploy to Production environment
   deploy-production:
     needs: build
-    if: inputs.deploy_production == true
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_production == true
     runs-on: ubuntu-latest
     environment: Production
 
