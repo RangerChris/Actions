@@ -13,15 +13,21 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      environment:
-        description: "Select environment to deploy to"
-        required: true
-        default: "Development"
-        type: choice
-        options:
-          - Development
-          - Staging
-          - Production
+      deploy_development:
+        description: "Deploy to Development"
+        required: false
+        default: false
+        type: boolean
+      deploy_staging:
+        description: "Deploy to Staging"
+        required: false
+        default: false
+        type: boolean
+      deploy_production:
+        description: "Deploy to Production"
+        required: false
+        default: false
+        type: boolean
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -45,6 +51,7 @@ jobs:
   # Deploy to Development environment
   deploy-development:
     needs: build
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || inputs.deploy_development == true
     runs-on: ubuntu-latest
     environment: Development
 
@@ -60,7 +67,8 @@ jobs:
 
   # Deploy to Staging environment
   deploy-staging:
-    needs: deploy-development
+    needs: build
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || inputs.deploy_staging == true
     runs-on: ubuntu-latest
     environment: Staging
 
@@ -76,7 +84,8 @@ jobs:
 
   # Deploy to Production environment
   deploy-production:
-    needs: deploy-staging
+    needs: build
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || inputs.deploy_production == true
     runs-on: ubuntu-latest
     environment: Production
 
