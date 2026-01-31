@@ -1,0 +1,16 @@
+{
+  "name": "github-actions-demo",
+  "version": "1.0.0",
+  "description": "Comprehensive GitHub Actions demonstration",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Building project...' && exit 0",
+    "lint": "echo 'Linting code...' && exit 0",
+    "test": "echo 'Running tests...' && exit 0",
+    "docs": "echo 'Generating documentation...' && mkdir -p docs && echo '# Documentation' > docs/index.md"
+  },
+  "keywords": ["github-actions", "ci-cd", "demo"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {}
+}
