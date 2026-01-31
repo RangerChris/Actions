@@ -3,6 +3,7 @@
 ## Local Testing with act
 
 ### Installation
+
 ```powershell
 # Windows with Chocolatey
 choco install act-cli
@@ -12,12 +13,14 @@ act --version
 ```
 
 ### List Available Jobs
+
 ```powershell
 cd d:\projects\Actions
 act -l
 ```
 
 Output shows:
+
 ```
 Job ID              | Job Name                | Workflow Name           | Workflow File
 quality-checks      | Code Quality & Tests    | GitHub Actions Power... | action2-example.yml
@@ -28,6 +31,7 @@ notify              | Notifications           | GitHub Actions Power... | action
 ```
 
 ### Run Specific Job Locally
+
 ```powershell
 # Run the quality checks job
 act -j quality-checks
@@ -40,6 +44,7 @@ act
 ```
 
 ### Debug Issues
+
 ```powershell
 # Verbose output
 act -v -j quality-checks
@@ -75,13 +80,17 @@ act workflow_dispatch
 ## Customizing for Your Project
 
 ### 1. Update Node Version
+
 Edit `.github\workflows\action2-example.yml`:
+
 ```yaml
 node-version: [18.x, 20.x, 21.x]  # Add version as needed
 ```
 
 ### 2. Update Build Scripts
+
 Edit `package.json`:
+
 ```json
 {
   "scripts": {
@@ -93,13 +102,17 @@ Edit `package.json`:
 ```
 
 ### 3. Add Secrets (for production)
+
 In GitHub Settings → Secrets and Variables → Actions:
+
 - `SLACK_WEBHOOK` - for Slack notifications
 - `DOCKER_USERNAME` - for Docker Hub
 - `DOCKER_PASSWORD` - for Docker Hub
 
 ### 4. Configure Container Registry
+
 Update the registry in workflow:
+
 ```yaml
 env:
   REGISTRY: docker.io  # Docker Hub
@@ -122,7 +135,8 @@ act --help
 
 ## Debugging Tips
 
-### If act fails with Docker:
+### If act fails with Docker
+
 ```powershell
 # Install Docker Desktop for Windows
 # Or use WSL2 backend with Docker
@@ -131,7 +145,8 @@ act --help
 docker ps
 ```
 
-### Common Issues:
+### Common Issues
+
 1. **Node modules not found** - Run: `npm install`
 2. **Permission denied** - Run PowerShell as Administrator
 3. **Docker not found** - Install Docker Desktop
@@ -146,6 +161,6 @@ docker ps
 
 ## Useful Links
 
-- Act GitHub: https://github.com/nektos/act
-- GitHub Actions Docs: https://docs.github.com/actions
-- Act Docker Images: https://github.com/catthehacker/docker_images
+- Act GitHub: <https://github.com/nektos/act>
+- GitHub Actions Docs: <https://docs.github.com/actions>
+- Act Docker Images: <https://github.com/catthehacker/docker_images>
