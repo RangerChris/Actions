@@ -44,6 +44,7 @@ jobs:
       # Emulate build step
       - name: Build and test
         run: |
+          echo Running locally,
           echo Building application,
           echo Running tests,
           echo Preparing for deployment.
