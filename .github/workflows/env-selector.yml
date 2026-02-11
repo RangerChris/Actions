@@ -1,5 +1,5 @@
-name: Deployment example
-run-name: 'Deploy - [QA: ${{ inputs.deploy-qa }}, Staging: ${{ inputs.deploy-staging }}, PreProd: ${{ inputs.deploy-preprod }}, Prod: ${{ inputs.deploy-prod }}]'
+name: Environment selector example
+run-name: 'Deploy - [QA: ${{ inputs.deploy-qa && ''✅'' || ''❌''}}, Staging: ${{ inputs.deploy-staging && ''✅'' || ''❌''}}, PreProd: ${{ inputs.deploy-preprod && ''✅'' || ''❌''}}, Prod: ${{ inputs.deploy-prod && ''✅'' || ''❌''}}]'
 
 on:
   workflow_dispatch:
