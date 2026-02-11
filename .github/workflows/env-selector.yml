@@ -1,0 +1,67 @@
+name: Deployment example
+run-name: 'Deploy - [QA: ${{ inputs.deploy-qa }}, Staging: ${{ inputs.deploy-staging }}, PreProd: ${{ inputs.deploy-preprod }}, Prod: ${{ inputs.deploy-prod }}]'
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy-qa:
+        description: "Deploy to QA"
+        required: false
+        default: true
+        type: boolean
+      deploy-staging:
+        description: "Deploy to Staging"
+        required: false
+        default: false
+        type: boolean
+      deploy-preprod:
+        description: "Deploy to Preprod"
+        required: false
+        default: false
+        type: boolean
+      deploy-prod:
+        description: "Deploy to Production"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  deploy-qa:
+    name: QA
+    if: inputs.deploy-qa
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and test
+        run: |
+          echo QA invoked.
+
+  deploy-staging:
+    name: Staging
+    if: inputs.deploy-staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and test
+        run: |
+          echo Staging invoked.
+
+  deploy-preprod:
+      name: PreProd
+      if: inputs.deploy-preprod
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Build and test
+          run: |
+            echo PreProd invoked.
+
+  deploy-prod:
+    name: Prod
+    if: inputs.deploy-prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and test
+        run: |
+          echo Prod invoked.
