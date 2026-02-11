@@ -1,5 +1,10 @@
 name: Environment selector example
-run-name: 'Deploy - [QA: ${{ inputs.deploy-qa && ''✅'' || ''❌''}}, Staging: ${{ inputs.deploy-staging && ''✅'' || ''❌''}}, PreProd: ${{ inputs.deploy-preprod && ''✅'' || ''❌''}}, Prod: ${{ inputs.deploy-prod && ''✅'' || ''❌''}}]'
+run-name: |
+  ARM Deploy - Payroll DK Frontend
+  QA: ${{ inputs.deploy-qa && '✅'}}
+  Beta: ${{ inputs.deploy-staging && '✅'}}
+  Demo: ${{ inputs.deploy-preprod && '✅'}}
+  Prod: ${{ inputs.deploy-prod && '✅'}}
 
 on:
   workflow_dispatch:
