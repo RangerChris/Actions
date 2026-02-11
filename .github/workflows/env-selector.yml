@@ -1,10 +1,10 @@
 name: Environment selector example
 run-name: |
-  Deployed to 
-  ${{ inputs.deploy-qa && 'QA' }}
-  ${{ inputs.deploy-staging && 'Staging' }}
-  ${{ inputs.deploy-preprod && 'PreProd'}}
-  ${{ inputs.deploy-prod && 'Prod'}}
+  Deployed to
+  ${{ inputs.deploy-qa && ' QA' || ''}}
+  ${{ inputs.deploy-staging && ' Staging' || '' }}
+  ${{ inputs.deploy-preprod && ' PreProd' || ''}}
+  ${{ inputs.deploy-prod && ' Prod' || ''}}
 
 on:
   workflow_dispatch:
