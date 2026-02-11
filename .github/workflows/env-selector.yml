@@ -1,9 +1,9 @@
 name: Environment selector example
 run-name: |
-  ARM Deploy - Payroll DK Frontend
+  Deployment to environment
   QA: ${{ inputs.deploy-qa && '✅' || '⊘' }}
-  Beta: ${{ inputs.deploy-staging && '✅' || '⊘' }}
-  Demo: ${{ inputs.deploy-preprod && '✅' || '⊘' }}
+  Staging: ${{ inputs.deploy-staging && '✅' || '⊘' }}
+  PreProd: ${{ inputs.deploy-preprod && '✅' || '⊘' }}
   Prod: ${{ inputs.deploy-prod && '✅' || '⊘' }}
 
 on:
