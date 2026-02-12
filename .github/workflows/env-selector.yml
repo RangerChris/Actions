@@ -52,14 +52,14 @@ jobs:
           echo Staging invoked.
 
   deploy-preprod:
-      name: PreProd
-      if: inputs.deploy-preprod
-      runs-on: ubuntu-latest
-  
-      steps:
-        - name: Build and test
-          run: |
-            echo PreProd invoked.
+    name: PreProd
+    if: inputs.deploy-preprod
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and test
+        run: |
+          echo PreProd invoked.
 
   deploy-prod:
     name: Prod
