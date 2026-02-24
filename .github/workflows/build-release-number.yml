@@ -1,5 +1,8 @@
 name: Show build and release number
 run-name: "${{ inputs.run_date || '2026-02-24' }}.${{ github.run_number }}.${{ github.run_attempt }}"
+permissions:
+  contents: write
+
 on:
   push:
     branches: ["main"]
@@ -36,3 +39,16 @@ jobs:
       - name: Deploy to Development
         run: |
           echo "Deploying to Development environment..."
+
+  publish-release:
+    needs: deploy
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Publish GitHub Release (triggers release pipeline)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ inputs.run_date || '2026-02-24' }}.${{ github.run_number }}.${{ github.run_attempt }}"
+          name: "Release ${{ inputs.run_date || '2026-02-24' }}.${{ github.run_number }}.${{ github.run_attempt }}"
+          body: "Automated release published by build workflow to trigger release-pipeline.yml"
