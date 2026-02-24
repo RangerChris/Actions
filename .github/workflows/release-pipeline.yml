@@ -1,9 +1,27 @@
 name: Release pipeline
-run-name: "release.${{ github.event.release.tag_name }}.${{ github.run_number }}.${{ github.run_attempt }}"
+run-name: "release.${{ inputs.build_date }}.${{ inputs.build_run_number }}.${{ inputs.build_run_attempt }}"
 
 on:
-    release:
-        types: [published]
+    workflow_dispatch:
+        inputs:
+            build_date:
+                description: "Build date (yyyy-mm-dd)"
+                required: true
+                type: string
+            build_run_number:
+                description: "Build run number"
+                required: true
+                type: string
+            build_run_attempt:
+                description: "Build run attempt"
+                required: false
+                default: "1"
+                type: string
+            build_ref:
+                description: "Branch or tag to release from"
+                required: false
+                default: "main"
+                type: string
 
 jobs:
     release:
@@ -13,11 +31,13 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
+              with:
+                  ref: ${{ inputs.build_ref }}
 
             - name: Release metadata
               run: |
-                  echo "RELEASE | tag=${{ github.event.release.tag_name }} | name=${{ github.event.release.name }} | target=${{ github.event.release.target_commitish }} | prerelease=${{ github.event.release.prerelease }} | draft=${{ github.event.release.draft }} | created_at=${{ github.event.release.created_at }} | published_at=${{ github.event.release.published_at }} | actor=${{ github.actor }} | repo=${{ github.repository }}"
+                  echo "RELEASE | build=${{ inputs.build_date }}.${{ inputs.build_run_number }}.${{ inputs.build_run_attempt }} | ref=${{ inputs.build_ref }} | actor=${{ github.actor }} | repo=${{ github.repository }} | workflow_run=${{ github.run_number }}.${{ github.run_attempt }}"
 
             - name: Release actions
               run: |
-                  echo "Running release pipeline tasks..."
+                  echo "Running release pipeline tasks for selected build..."
