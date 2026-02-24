@@ -1,5 +1,5 @@
 name: Show build and release number
-run-name: Build ${{ github.run_number }} - Release ${{ github.ref_name }}
+run-name: ${{github.event_name}} ${{ github.run_number }}/${{ github.run_attempt }} - Branch ${{ github.ref_name }} by ${{ github.actor }}
 on:
   push:
     branches: ["main"]
@@ -21,6 +21,7 @@ jobs:
       - name: Build and test
         run: |
           echo "Build Number: $BUILD_NUMBER"
+          echo "Pull Request: ${{ github.event.pull_request.number }}"
           echo Running locally,
           echo Building application,
           echo Running tests,
@@ -28,7 +29,6 @@ jobs:
 
   deploy-development:
     needs: build
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment: Development
 
