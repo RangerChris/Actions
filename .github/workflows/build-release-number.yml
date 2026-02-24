@@ -1,5 +1,5 @@
 name: Show build and release number
-run-name: "Test Build ${{ github.run_number }} - ${{ github.event.head_commit.message }}"
+run-name: "${{ inputs.run_date || '2026-02-24' }}.${{ github.run_number }}.${{ github.run_attempt }}"
 on:
   push:
     branches: ["main"]
@@ -7,6 +7,12 @@ on:
     branches: ["main"]
 
   workflow_dispatch:
+    inputs:
+      run_date:
+        description: "Run date (yyyy-mm-dd)"
+        required: false
+        default: "2026-02-24"
+        type: string
 
 jobs:
   build:
