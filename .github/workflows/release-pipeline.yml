@@ -1,0 +1,23 @@
+name: Release pipeline
+run-name: "release.${{ github.event.release.tag_name }}.${{ github.run_number }}.${{ github.run_attempt }}"
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Release metadata
+              run: |
+                  echo "RELEASE | tag=${{ github.event.release.tag_name }} | name=${{ github.event.release.name }} | target=${{ github.event.release.target_commitish }} | prerelease=${{ github.event.release.prerelease }} | draft=${{ github.event.release.draft }} | created_at=${{ github.event.release.created_at }} | published_at=${{ github.event.release.published_at }} | actor=${{ github.actor }} | repo=${{ github.repository }}"
+
+            - name: Release actions
+              run: |
+                  echo "Running release pipeline tasks..."
