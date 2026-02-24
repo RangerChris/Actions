@@ -7,22 +7,6 @@ on:
     branches: ["main"]
 
   workflow_dispatch:
-    inputs:
-      deploy_development:
-        description: "Deploy to Development"
-        required: false
-        default: false
-        type: boolean
-      deploy_staging:
-        description: "Deploy to Staging"
-        required: false
-        default: false
-        type: boolean
-      deploy_production:
-        description: "Deploy to Production"
-        required: false
-        default: false
-        type: boolean
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
@@ -44,7 +28,7 @@ jobs:
 
   deploy-development:
     needs: build
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy_development == true
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment: Development
 
@@ -57,38 +41,3 @@ jobs:
           echo "Deploying to Development environment..."
           echo "Running deployment scripts and configurations for Development..."
           echo "MY_ACTION_VALUE: $MY_ACTION_VALUE"
-          # Add your deployment commands here
-
-  deploy-staging:
-    needs: build
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy_staging == true
-    runs-on: ubuntu-latest
-    environment: Staging
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy to Staging
-        run: |
-          echo "Build Number: $BUILD_NUMBER"
-          echo "Deploying to Staging environment..."
-          echo "Running deployment scripts and configurations for Staging..."
-          echo "MY_ACTION_VALUE: $MY_ACTION_VALUE"
-          # Add your deployment commands here
-
-  deploy-production:
-    needs: build
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy_production == true
-    runs-on: ubuntu-latest
-    environment: Production
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy to Production
-        run: |
-          echo "Build Number: $BUILD_NUMBER"
-          echo "Deploying to Production environment..."
-          echo "Running deployment scripts and configurations for Production..."
-          echo "MY_ACTION_VALUE: $MY_ACTION_VALUE"
-          # Add your deployment commands here
