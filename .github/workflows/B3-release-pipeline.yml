@@ -1,5 +1,5 @@
 name: Release pipeline
-run-name: "release.${{ inputs.build_date }}.${{ inputs.build_run_number }}"
+run-name: "B3 release.${{ inputs.build_date }}.${{ inputs.build_run_number }}"
 
 on:
     workflow_dispatch:
@@ -29,10 +29,20 @@ jobs:
               with:
                   ref: ${{ inputs.build_ref }}
 
+            - name: Prepare release package
+              run: |
+                  test -f index.html
+                  mkdir -p release
+                                    VERSIONED_HTML="index-${{ inputs.build_date }}-${{ inputs.build_run_number }}.html"
+                                    cp index.html "release/$VERSIONED_HTML"
+                                    tar -czf release/web-release.tar.gz -C release "$VERSIONED_HTML"
+
             - name: Release metadata
               run: |
-                  echo "RELEASE | build=${{ inputs.build_date }}.${{ inputs.build_run_number }} | ref=${{ inputs.build_ref }} | actor=${{ github.actor }} | repo=${{ github.repository }} | workflow_run=${{ github.run_number }}"
+                  echo "RELEASE | build=${{ inputs.build_date }}.${{ inputs.build_run_number }} | ref=${{ inputs.build_ref }} | actor=${{ github.actor }} | repo=${{ github.repository }} | workflow_run=${{ github.run_number }} | file=index-${{ inputs.build_date }}-${{ inputs.build_run_number }}.html | package=release/web-release.tar.gz"
 
-            - name: Release actions
-              run: |
-                  echo "Running release pipeline tasks for selected build..."
+            - name: Upload release package artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: web-release-${{ inputs.build_date }}-${{ inputs.build_run_number }}
+                  path: release/web-release.tar.gz
