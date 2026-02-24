@@ -1,5 +1,5 @@
 name: Show build and release number
-run-name: "${{ github.event.pull_request.updated_at || github.event.head_commit.timestamp || github.event.repository.updated_at }}.${{ github.run_number }}.${{ github.run_attempt }}"
+run-name: "Test Build ${{ github.run_number }} - ${{ github.event.head_commit.message }}"
 on:
   push:
     branches: ["main"]
@@ -7,10 +7,6 @@ on:
     branches: ["main"]
 
   workflow_dispatch:
-
-env:
-  BUILD_NUMBER: ${{ github.run_number }}
-  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 jobs:
   build:
@@ -21,8 +17,7 @@ jobs:
 
       - name: Build and test
         run: |
-          echo "BUILD | workflow=${{ github.workflow }} | job=${{ github.job }} | event=${{ github.event_name }} | build=$BUILD_NUMBER.${{ github.run_attempt }} | repo=${{ github.repository }} | branch=${{ github.ref_name }} | sha=${{ github.sha }} | actor=${{ github.actor }} | runner=${{ runner.os }}-${{ runner.arch }} | pr=${{ github.event.pull_request.number }} | run=$RUN_URL | utc=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          echo "BUILD_ACTIONS | running-locally,building-application,running-tests,preparing-for-deployment"
+          echo "Building the project..."
 
   deploy:
     needs: build
@@ -34,5 +29,4 @@ jobs:
 
       - name: Deploy to Development
         run: |
-          echo "DEPLOY | workflow=${{ github.workflow }} | job=${{ github.job }} | env=Development | event=${{ github.event_name }} | build=$BUILD_NUMBER.${{ github.run_attempt }} | repo=${{ github.repository }} | branch=${{ github.ref_name }} | sha=${{ github.sha }} | actor=${{ github.actor }} | runner=${{ runner.os }}-${{ runner.arch }} | run=$RUN_URL | utc=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          echo "DEPLOY_ACTIONS | deploying-development,running-deployment-scripts | my_action_value=$MY_ACTION_VALUE"
+          echo "Deploying to Development environment..."
