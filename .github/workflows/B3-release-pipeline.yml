@@ -1,5 +1,5 @@
 name: Release pipeline
-run-name: "release.${{ inputs.build_date }}.${{ inputs.build_run_number }}.${{ inputs.build_run_attempt }}"
+run-name: "release.${{ inputs.build_date }}.${{ inputs.build_run_number }}"
 
 on:
     workflow_dispatch:
@@ -11,11 +11,6 @@ on:
             build_run_number:
                 description: "Build run number"
                 required: true
-                type: string
-            build_run_attempt:
-                description: "Build run attempt"
-                required: false
-                default: "1"
                 type: string
             build_ref:
                 description: "Branch or tag to release from"
@@ -36,7 +31,7 @@ jobs:
 
             - name: Release metadata
               run: |
-                  echo "RELEASE | build=${{ inputs.build_date }}.${{ inputs.build_run_number }}.${{ inputs.build_run_attempt }} | ref=${{ inputs.build_ref }} | actor=${{ github.actor }} | repo=${{ github.repository }} | workflow_run=${{ github.run_number }}.${{ github.run_attempt }}"
+                  echo "RELEASE | build=${{ inputs.build_date }}.${{ inputs.build_run_number }} | ref=${{ inputs.build_ref }} | actor=${{ github.actor }} | repo=${{ github.repository }} | workflow_run=${{ github.run_number }}"
 
             - name: Release actions
               run: |

@@ -1,5 +1,5 @@
 name: Show build and release number
-run-name: "${{ inputs.run_date || '2026-02-24' }}.${{ github.run_number }}.${{ github.run_attempt }}"
+run-name: "${{ inputs.run_date || '2026-02-24' }}.${{ github.run_number }}"
 on:
   push:
     branches: ["main"]
