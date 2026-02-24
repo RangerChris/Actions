@@ -1,5 +1,5 @@
 name: Show build and release number
-run-name: "${{ github.event_name }} #${{ github.run_number }}.${{ github.run_attempt }} | ${{ github.ref_name }}"
+run-name: "${{ github.event.pull_request.updated_at || github.event.head_commit.timestamp || github.event.repository.updated_at }}.${{ github.run_number }}.${{ github.run_attempt }}"
 on:
   push:
     branches: ["main"]
@@ -21,28 +21,8 @@ jobs:
 
       - name: Build and test
         run: |
-          echo "=== BUILD CONTEXT ==="
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Job: ${{ github.job }}"
-          echo "Event: ${{ github.event_name }}"
-          echo "Build Number: $BUILD_NUMBER"
-          echo "Run Attempt: ${{ github.run_attempt }}"
-          echo "Run ID: ${{ github.run_id }}"
-          echo "Run URL: $RUN_URL"
-          echo "Repository: ${{ github.repository }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Commit SHA: ${{ github.sha }}"
-          echo "PR Number: ${{ github.event.pull_request.number }}"
-          echo "Triggered By: ${{ github.actor }}"
-          echo "Runner: ${{ runner.os }}-${{ runner.arch }}"
-          echo "Timestamp (UTC): $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          echo ""
-          echo "=== BUILD ACTIONS ==="
-          echo "Running locally"
-          echo "Building application"
-          echo "Running tests"
-          echo "Preparing for deployment"
+          echo "BUILD | workflow=${{ github.workflow }} | job=${{ github.job }} | event=${{ github.event_name }} | build=$BUILD_NUMBER.${{ github.run_attempt }} | repo=${{ github.repository }} | branch=${{ github.ref_name }} | sha=${{ github.sha }} | actor=${{ github.actor }} | runner=${{ runner.os }}-${{ runner.arch }} | pr=${{ github.event.pull_request.number }} | run=$RUN_URL | utc=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          echo "BUILD_ACTIONS | running-locally,building-application,running-tests,preparing-for-deployment"
 
   deploy:
     needs: build
@@ -54,23 +34,5 @@ jobs:
 
       - name: Deploy to Development
         run: |
-          echo "=== DEPLOY CONTEXT ==="
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Job: ${{ github.job }}"
-          echo "Environment: Development"
-          echo "Event: ${{ github.event_name }}"
-          echo "Build Number: $BUILD_NUMBER"
-          echo "Run Attempt: ${{ github.run_attempt }}"
-          echo "Run ID: ${{ github.run_id }}"
-          echo "Run URL: $RUN_URL"
-          echo "Repository: ${{ github.repository }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Commit SHA: ${{ github.sha }}"
-          echo "Triggered By: ${{ github.actor }}"
-          echo "Runner: ${{ runner.os }}-${{ runner.arch }}"
-          echo "Timestamp (UTC): $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          echo ""
-          echo "=== DEPLOY ACTIONS ==="
-          echo "Deploying to Development environment"
-          echo "Running deployment scripts and configurations for Development"
-          echo "MY_ACTION_VALUE: $MY_ACTION_VALUE"
+          echo "DEPLOY | workflow=${{ github.workflow }} | job=${{ github.job }} | env=Development | event=${{ github.event_name }} | build=$BUILD_NUMBER.${{ github.run_attempt }} | repo=${{ github.repository }} | branch=${{ github.ref_name }} | sha=${{ github.sha }} | actor=${{ github.actor }} | runner=${{ runner.os }}-${{ runner.arch }} | run=$RUN_URL | utc=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          echo "DEPLOY_ACTIONS | deploying-development,running-deployment-scripts | my_action_value=$MY_ACTION_VALUE"
