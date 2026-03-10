@@ -1,4 +1,4 @@
-name: CI/CD - Payroll DK Frontend
+name: CI/CD - Simple
 
 on:
     push:
@@ -18,7 +18,7 @@ jobs:
         environment: Development
 
         concurrency:
-            group: ${{ github.workflow }}-payroll-dk-qa
+            group: ${{ github.workflow }}-deployment
             cancel-in-progress: false
         steps:
             - name: Deploy to QA
@@ -31,7 +31,7 @@ jobs:
         environment: Staging
 
         concurrency:
-            group: ${{ github.workflow }}-payroll-dk-staging
+            group: ${{ github.workflow }}-deployment
             cancel-in-progress: false
         steps:
             - name: Deploy to Staging
@@ -44,7 +44,7 @@ jobs:
         environment: Production
 
         concurrency:
-            group: ${{ github.workflow }}-payroll-dk-prod
+            group: ${{ github.workflow }}-deployment
             cancel-in-progress: false
         steps:
             - name: Deploy to Production
