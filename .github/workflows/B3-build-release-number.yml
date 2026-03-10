@@ -11,7 +11,7 @@ on:
       run_date:
         description: "Run date (yyyy-mm-dd)"
         required: false
-        default: "2026-02-24"
+        default: "2026-03-04"
         type: string
 
 jobs:
