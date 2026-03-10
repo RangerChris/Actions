@@ -1,0 +1,52 @@
+name: CI/CD - Payroll DK Frontend
+
+on:
+    push:
+        branches:
+            - main
+
+    workflow_dispatch: {}
+
+permissions:
+    actions: read
+    contents: read
+
+jobs:
+    deploy_qa:
+        name: Deploy QA
+        runs-on: ubuntu-latest
+        environment: Development
+
+        concurrency:
+            group: ${{ github.workflow }}-payroll-dk-qa
+            cancel-in-progress: false
+        steps:
+            - name: Deploy to QA
+              run: |
+                  echo "Deploying to QA environment..."
+
+    deploy_staging:
+        name: Deploy Staging
+        runs-on: ubuntu-latest
+        environment: Staging
+
+        concurrency:
+            group: ${{ github.workflow }}-payroll-dk-staging
+            cancel-in-progress: false
+        steps:
+            - name: Deploy to Staging
+              run: |
+                  echo "Deploying to Staging environment..."
+
+    deploy_prod:
+        name: Deploy Prod
+        runs-on: ubuntu-latest
+        environment: Production
+
+        concurrency:
+            group: ${{ github.workflow }}-payroll-dk-prod
+            cancel-in-progress: false
+        steps:
+            - name: Deploy to Production
+              run: |
+                  echo "Deploying to Production environment..."
